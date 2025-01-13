@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Members List</title>
+
+</head>
+<body>
+<h1>Members List</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Phone Number</th>
+        <th>Email</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${members.isEmpty()}">
+        <td colspan="2">No members found.</td>
+    </tr>
+    <tr th:each="member : ${members}">
+        <td th:text="${member.name}">Name</td>
+        <td th:text="${member.phoneNumber}">Phone Number</td>
+        <td th:text="${member.email}">Email</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

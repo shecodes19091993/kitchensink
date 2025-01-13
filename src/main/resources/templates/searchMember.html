@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Member By Id </title>
+    <style>
+        .search-member {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .search-member h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .search-member form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .search-member label {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .search-member input {
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .search-member button {
+            padding: 10px;
+            font-size: 1rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-member button:hover {
+            background-color: #0056b3;
+        }
+
+        .member-details {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .member-details h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .member-details p {
+            margin: 5px 0;
+            font-size: 1rem;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+<div if="${member == null}" class="search-member">
+    <h2>Search Member by ID</h2>
+    <form th:action="@{/kitchensink/search/members/id=(id=${memberId})}" method="get">
+        <label for="memberId">Member ID:</label>
+        <input type="text" id="memberId" name="id" placeholder="Enter Member ID" required />
+        <button type="submit">Search</button>
+    </form>
+</div>
+
+<div th:if="${member}" class="member-details">
+    <h2>Submitted Member Details</h2>
+    <p><strong>Name:</strong> <span th:text="${member.name}"></span></p>
+    <p><strong>Email:</strong> <span th:text="${member.email}"></span></p>
+    <p><strong>Phone Number:</strong> <span th:text="${member.phoneNumber}"></span></p>
+</div>
+</body>
+</html>

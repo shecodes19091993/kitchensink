@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Member Registration</title>
+    <style>
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+
+        .alert-success {
+            color: #3c763d;
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+        }
+
+        .alert-danger {
+            color: #a94442;
+            background-color: #f2dede;
+            border-color: #ebccd1;
+        }
+
+        .member-details {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .member-details h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .member-details p {
+            margin: 5px 0;
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .view-all-members {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .view-all-members a {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .view-all-members a:hover {
+            text-decoration: underline;
+            color: #0056b3;
+        }
+
+
+    </style>
+</head>
+<body>
+<h1>Member Registration</h1>
+
+<!-- Error Message -->
+<div th:if="${failureMessage}" class="alert alert-danger">
+    <p th:text="${failureMessage}"></p>
+</div>
+
+<!-- Success Section -->
+<div th:if="${!#strings.isEmpty(successMessage)}" class="alert alert-success">
+    <p th:text="${successMessage}"></p>
+    <!-- Member Details -->
+    <div th:if="${member}" class="member-details">
+        <h2>Submitted Member Details</h2>
+        <p><strong>Name:</strong> <span th:text="${member.name}"></span></p>
+        <p><strong>Email:</strong> <span th:text="${member.email}"></span></p>
+        <p><strong>Phone Number:</strong> <span th:text="${member.phoneNumber}"></span></p>
+    </div>
+
+    <!-- View All Members Link -->
+    <div class="view-all-members">
+        <a th:href="@{/kitchensink/members}">View All Members</a>
+    </div>
+</div>
+
+<!-- Search Member by ID -->
+
+
+</body>
+</html>
