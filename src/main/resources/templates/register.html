@@ -3,123 +3,21 @@
 
 <head>
     <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+    *{margin:5px;padding:0;box-sizing:border-box}body{font-family:Arial,sans-serif;background-color:#f4f4f9;padding:20px;display:flex;justify-content:center;align-items:center;height:100vh}form{background-color:white;padding:2rem;border-radius:8px;box-shadow:0 0 10px rgba(0,0,0,.1);width:100%;max-width:500px}h1{text-align:center;margin-bottom:1.5rem;color:#333}form label{font-size:1rem;font-weight:bold;margin-bottom:.5rem;display:block;color:#555}form input{width:100%;padding:.75rem;margin-bottom:1rem;border:1px solid #ccc;border-radius:4px;font-size:1rem;transition:border-color .3s ease}form input:focus{border-color:#007bff;outline:none}div th\:errors{color:#a94442;font-size:.9rem;margin-top:.5rem}.alert{padding:15px;margin-bottom:20px;border:1px solid transparent;border-radius:4px;font-size:1rem}.alert-success{color:#3c763d;background-color:#dff0d8;border-color:#d6e9c6}.alert-danger{color:#a94442;background-color:#f2dede;border-color:#ebccd1}.center-content{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;margin-bottom:1.5rem}form button{width:100%;padding:.75rem;background-color:#007bff;color:white;font-size:1rem;border:none;border-radius:4px;cursor:pointer;transition:background-color .3s ease}form button:hover{background-color:#0056b3}    </style>
 
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f9;
-        padding: 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-    }
-
-    form {
-        background-color: white;
-        padding: 2rem;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        max-width: 500px;
-    }
-
-    h1 {
-        text-align: center;
-        margin-bottom: 1.5rem;
-        color: #333;
-    }
-
-    form label {
-        font-size: 1rem;
-        font-weight: bold;
-        margin-bottom: 0.5rem;
-        display: block;
-        color: #555;
-    }
-
-    form input {
-        width: 100%;
-        padding: 0.75rem;
-        margin-bottom: 1rem;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        font-size: 1rem;
-        transition: border-color 0.3s ease;
-    }
-
-    form input:focus {
-        border-color: #007bff;
-        outline: none;
-    }
-
-    div th\\:errors {
-        color: #a94442;
-        font-size: 0.9rem;
-        margin-top: 0.5rem;
-    }
-
-    .alert {
-        padding: 15px;
-        margin-bottom: 20px;
-        border: 1px solid transparent;
-        border-radius: 4px;
-        font-size: 1rem;
-    }
-
-    .alert-success {
-        color: #3c763d;
-        background-color: #dff0d8;
-        border-color: #d6e9c6;
-    }
-
-    .alert-danger {
-        color: #a94442;
-        background-color: #f2dede;
-        border-color: #ebccd1;
-    }
-
-.center-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    margin-bottom: 1.5rem;
-}
-    form button {
-        width: 100%;
-        padding: 0.75rem;
-        background-color: #007bff;
-        color: white;
-        font-size: 1rem;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-    form button:hover {
-        background-color: #0056b3;
-    }
-    </style>
     <title>Member Registration</title>
 </head>
 
 <body>
 <div class="center-content">
-<h1>Welcome to the Member Registration Portal</h1>
+<h1>Member Registration Portal</h1>
 
 <!-- Adjusted Success Message and Admin Welcome Message -->
 <div th:if="${successMessage}" class="alert alert-success">
     <p th:text="${successMessage}"></p>
 </div>
 <p th:if="${admin != null}">
-    Hello, <span th:text="${admin.name}"></span>! Welcome back to the admin portal.
+    Hello,<span th:text="${admin.name}"></span>! Welcome back to the admin portal.
 </p>
 </div>
 <form th:action="@{/admin/registerMember}" th:object="${member}" method="post" id="registrationForm">
@@ -172,116 +70,6 @@
         <a th:href="@{/admin/members}" class="btn btn-primary" >View Members</a>
     </div>
 </form>
-
-<script>
-    // Validate phone number to ensure it's exactly 10 digits
-function validateRole(input) {
-    const validRoles = ['user', 'admin','USER','ADMIN'];
-
-
-    if (validRoles.includes(input)) {
-        document.getElementById('roleError').style.display = 'none';
-        return true;
-    } else {
-        document.getElementById('roleError').style.display = 'block';
-        return false;
-    }
-}
-
-    function validatePhoneNumber(input) {
-      if (phoneNumber.value.length === 12 && phoneNumber.value.startsWith('91')) {
-    phoneNumber.value = phoneNumber.value.slice(2);
-}
-
-
-  const patt = /^[0]?[6789]\d{9}$/;
-
-    if (patt.test(phoneNumber.value)) {
-    document.getElementById('phoneError').style.display = 'none';
-        return true; // Valid phone number
-
-
-        }
-         else if(phoneNumber.value<10){
-          document.getElementById('phoneError').style.display = 'block';
-         document.getElementById('phoneError').textContent='Please make sure mobile number is 10 digit ';
-          return false;
-
-         }
-         else {
-         document.getElementById('phoneError').style.display = 'block';
-         document.getElementById('phoneError').textContent='Please make sure mobile num is beginning with 9,8,7 or 6 and does not contain alphabets';
-         return false;
-
-        }
-    }
-
-    // Validate email to match standard email format
-    function validateEmail(input) {
-        const emailRegex = /^[a-zA-Z0-9_.+\-]+[\x40][a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/ ;
-        if (!emailRegex.test(input)) {
-         document.getElementById('emailError').style.display = 'block';
-         return false;
-        } else {
-            document.getElementById('emailError').style.display = 'none';
-            return true;
-        }
-    }
-
-  function validateName(name) {
-  // Regular expression to allow only letters and spaces
-  const nameRegex = /^[a-zA-Z\s]{2,50}$/;
-
-  if (!name) {
-    return "Name field cannot be empty.";
-  }
-
-  if (!nameRegex.test(name)) {
-    return "Name must contain only letters and spaces, and be 2 to 50 characters long.";
-  }
-
-   return "Valid"; // The name is valid
-}
-    // Add form submission event listener to prevent invalid submissions
-    document.getElementById("registrationForm").addEventListener("submit", function (event) {
-        const phoneInput = document.getElementById("phoneNumber");
-        const name = document.getElementById("name").value;
-        const emailInput = document.getElementById("email").value;
-        const role = document.getElementById("role").value;
-
-        // Validate phone number
-
-
-
-
-        // Validate email
-
-        var validationMessage =validateName(name);
-        // Prevent form submission if any input is invalid
-if(validateRole(role) &&  validateEmail(emailInput) && validatePhoneNumber(phoneInput)){
-return true;
-}
-else
-{event.preventDefault();
-}
-
-   if (validationMessage === "Valid") {
-   document.getElementById('nameError').style.display = 'hidden';
-    return true;
-} else {
-   document.getElementById('nameError').style.display = 'inline';
-    return true;
-
-if(validateRole(role) &&  validateEmail(emailInput) && validatePhoneNumber(phoneInput)){
-return true;
-}
-else
-{event.preventDefault();
-}
-
-
-}
-    });
-</script>
+<script th:src="@{/member.js}"></script>
 </body>
 </html>

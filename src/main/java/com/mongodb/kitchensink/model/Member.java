@@ -92,8 +92,4 @@ public class Member {
         return new BCryptPasswordEncoder();
     }
 
-
-
-
-    // Getters and setters
 }

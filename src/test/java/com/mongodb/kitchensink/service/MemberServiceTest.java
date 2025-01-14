@@ -1,114 +1,174 @@
 package com.mongodb.kitchensink.service;
 
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.mongodb.kitchensink.model.Member;
 import com.mongodb.kitchensink.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.*;
 import org.springframework.data.domain.Sort;
 
-import java.util.Optional;
-import java.util.List;
+import java.util.*;
 
-@ExtendWith(MockitoExtension.class)
-public class MemberServiceTest {
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-    @InjectMocks
-    private MemberService memberService;
+class MemberServiceTest {
 
     @Mock
     private MemberRepository memberRepository;
 
-    private Member member;
+    @InjectMocks
+    private MemberService memberService;
 
     @BeforeEach
-    public void setup() {
-        member = new Member();
-        member.setId("1");
-        member.setName("John Doe");
-        member.setEmail("john.doe@example.com");
-        member.setPhoneNumber("1234567890");
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testFindByEmail_Success() {
-        // Mock the repository call to return a member
-        when(memberRepository.findByEmail("john.doe@example.com")).thenReturn(member);
+    void testFindByEmail() {
+        String email = "test@example.com";
+        Member member = new Member();
+        member.setEmail(email);
 
-        // Call the service method
-        Member result = memberService.findByEmail("john.doe@example.com");
+        when(memberRepository.findByEmail(email)).thenReturn(member);
 
-        // Validate the result
+        Member result = memberService.findByEmail(email);
         assertNotNull(result);
-        assertEquals("john.doe@example.com", result.getEmail());
+        assertEquals(email, result.getEmail());
 
-        // Verify the interaction with the mock repository
-        verify(memberRepository, times(1)).findByEmail("john.doe@example.com");
+        verify(memberRepository, times(1)).findByEmail(email);
     }
 
     @Test
-    public void testFindById_Success() {
-        // Mock the repository to return a member for a given ID
-        when(memberRepository.findById("1")).thenReturn(Optional.of(member));
+    void testFindById() {
+        String id = "123";
+        Member member = new Member();
+        member.setId(id);
 
-        // Call the service method
-        Optional<Member> result = memberService.findById("1");
+        when(memberRepository.findById(id)).thenReturn(Optional.of(member));
 
-        // Validate the result
+        Optional<Member> result = memberService.findById(id);
         assertTrue(result.isPresent());
-        assertEquals("John Doe", result.get().getName());
+        assertEquals(id, result.get().getId());
 
-        // Verify the interaction with the mock repository
-        verify(memberRepository, times(1)).findById("1");
+        verify(memberRepository, times(1)).findById(id);
     }
 
     @Test
-    public void testFindById_Failure() {
-        // Mock the repository to return an empty Optional
-        when(memberRepository.findById("1")).thenReturn(Optional.empty());
+    void testFindAllOrderedByName() {
+        Member member1 = new Member();
+        member1.setName("Alice");
+        Member member2 = new Member();
+        member2.setName("Bob");
 
-        // Call the service method
-        Optional<Member> result = memberService.findById("1");
+        List<Member> members = Arrays.asList(member1, member2);
 
-        // Validate that the result is empty
-        assertFalse(result.isPresent());
-
-        // Verify the interaction with the mock repository
-        verify(memberRepository, times(1)).findById("1");
-    }
-
-    @Test
-    public void testFindAllOrderedByName() {
-        // Create a list of members to be returned by the mock repository
-        List<Member> members = List.of(member);
-
-        // Mock the repository to return the list sorted by name
         when(memberRepository.findAll(Sort.by(Sort.Order.asc("name")))).thenReturn(members);
 
-        // Call the service method
         List<Member> result = memberService.findAllOrderedByName();
-
-        // Validate the result
         assertNotNull(result);
-        assertFalse(result.isEmpty());
-        assertEquals("John Doe", result.get(0).getName());
+        assertEquals(2, result.size());
+        assertEquals("Alice", result.get(0).getName());
+        assertEquals("Bob", result.get(1).getName());
 
-        // Verify the interaction with the mock repository
         verify(memberRepository, times(1)).findAll(Sort.by(Sort.Order.asc("name")));
     }
 
     @Test
-    public void testRegister() throws Exception {
-        // Call the service method
-        memberService.register(member);
+    void testRegister() throws Exception {
+        Member newMember = new Member();
+        newMember.setName("Test User");
+        newMember.setPassword("password");
 
-        // Verify that the save method was called once
-        verify(memberRepository, times(1)).save(member);
+        when(memberRepository.save(any(Member.class))).thenReturn(newMember);
+
+        memberService.register(newMember);
+
+        verify(memberRepository, times(1)).save(any(Member.class));
+    }
+
+    @Test
+    void testDeleteByEmail() {
+        String email = "test@example.com";
+        Member member = new Member();
+        member.setEmail(email);
+
+        when(memberRepository.findByEmail(email)).thenReturn(member);
+        doNothing().when(memberRepository).delete(member);
+
+        boolean result = memberService.deleteByEmail(email);
+        assertTrue(result);
+
+        verify(memberRepository, times(1)).findByEmail(email);
+        verify(memberRepository, times(1)).delete(member);
+    }
+
+
+    @Test
+    void testUpdateById() {
+        String id = "123";
+        Member existingMember = new Member();
+        existingMember.setId(id);
+        existingMember.setName("Old Name");
+
+        Member updatedMember = new Member();
+        updatedMember.setName("New Name");
+        updatedMember.setPhoneNumber("1234567890");
+        updatedMember.setEmail("new@example.com");
+
+        when(memberRepository.findById(id)).thenReturn(Optional.of(existingMember));
+        when(memberRepository.save(existingMember)).thenReturn(existingMember);
+
+        boolean result = memberService.updateById(id, updatedMember);
+        assertTrue(result);
+        assertEquals("New Name", existingMember.getName());
+        assertEquals("1234567890", existingMember.getPhoneNumber());
+        assertEquals("new@example.com", existingMember.getEmail());
+
+        verify(memberRepository, times(1)).findById(id);
+        verify(memberRepository, times(1)).save(existingMember);
+    }
+
+    @Test
+    void testUpdateById_NotFound() {
+        String id = "nonexistent";
+        Member updatedMember = new Member();
+        updatedMember.setName("New Name");
+
+        when(memberRepository.findById(id)).thenReturn(Optional.empty());
+
+        boolean result = memberService.updateById(id, updatedMember);
+        assertFalse(result);
+
+        verify(memberRepository, times(1)).findById(id);
+        verify(memberRepository, times(0)).save(any(Member.class));
+    }
+
+    @Test
+    void testFindByUsername() {
+        String username = "testuser";
+        Member member = new Member();
+        member.setName(username);
+
+        when(memberRepository.findByName(username)).thenReturn(Optional.of(member));
+
+        Member result = memberService.findByUsername(username);
+        assertNotNull(result);
+        assertEquals(username, result.getName());
+
+        verify(memberRepository, times(1)).findByName(username);
+    }
+
+    @Test
+    void testFindByUsername_NotFound() {
+        String username = "nonexistentuser";
+
+        when(memberRepository.findByName(username)).thenReturn(Optional.empty());
+
+        Member result = memberService.findByUsername(username);
+        assertNull(result);
+
+        verify(memberRepository, times(1)).findByName(username);
     }
 }

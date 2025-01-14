@@ -3,80 +3,12 @@
 <head>
     <title>Members List</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 0;
-        }
-
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-
-        table {
-            width: 80%;
-            margin: 20px auto;
-            border-collapse: collapse;
-            border: 1px solid #ddd;
-            background-color: #f9f9f9;
-        }
-
-        th, td {
-            text-align: left;
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #f4f4f4;
-            color: #333;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-
-        .action-links form {
-            display: inline-block;
-            margin: 0;
-        }
-
-        .action-links button {
-            text-decoration: none;
-            padding: 5px 10px;
-            margin: 0 5px;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            font-size: 0.9em;
-            cursor: pointer;
-        }
-
-        .update-link {
-            background-color: #007bff;
-        }
-
-        .delete-link {
-            background-color: #dc3545;
-        }
-
-        .action-links button:hover {
-            opacity: 0.9;
-        }
-
-        .no-members {
-            text-align: center;
-            font-weight: bold;
-            color: #666;
-        }
-    </style>
+        body{font-family:Arial,sans-serif;margin:20px;padding:0}h1{text-align:center;color:#333}table{width:80%;margin:20px auto;border-collapse:collapse;border:1px solid #ddd;background-color:#f9f9f9}th,td{text-align:left;padding:10px;border:1px solid #ddd}th{background-color:#f4f4f4;color:#333}tr:nth-child(even){background-color:#f2f2f2}tr:hover{background-color:#f1f1f1}.action-links form{display:inline-block;margin:0}.action-links button{text-decoration:none;padding:5px 10px;margin:0 5px;border:none;border-radius:5px;color:white;font-size:.9em;cursor:pointer}.update-link{background-color:#007bff}.delete-link{background-color:#dc3545}.action-links button:hover{opacity:.9}.no-members{text-align:center;font-weight:bold;color:#666} </style>
 </head>
 <body>
+<div style="text-align: right; margin-bottom: 20px;">
+    <a href="/logout" style="color: #007bff; text-decoration: none;">Logout</a>
+</div>
 <h1>Members List</h1>
 <table>
     <thead>
@@ -84,7 +16,9 @@
         <th>Name</th>
         <th>Phone Number</th>
         <th>Email</th>
+        <th>Role</th>
         <th>Actions</th>
+
     </tr>
     </thead>
     <tbody>
@@ -98,6 +32,7 @@
         <td th:text="${member.name}">Name</td>
         <td th:text="${member.phoneNumber}">Phone Number</td>
         <td th:text="${member.email}">Email</td>
+        <td th:text="${member.role}">Role</td>
         <td class="action-links">
             <!-- Update Form -->
             <form th:action="@{/admin/showUpdatePage}" method="get">

@@ -70,6 +70,6 @@ public class MemberService
     }
 
     public Member findByUsername(String username) {
-        return memberRepository.findByName(username).orElse(null);
+        return memberRepository.findByName(username).stream().findFirst().orElse(null);
     }
 }
