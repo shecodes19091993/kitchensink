@@ -38,7 +38,38 @@ public class MemberService
 
     public void register(Member newMember) throws Exception {
         logger.info("Registering in db " + newMember.getName());
-
+        newMember.setPassword(newMember.passwordEncoder().encode(newMember.getPassword()));
           memberRepository.save(newMember);
+    }
+
+    public boolean deleteByEmail(String email) {
+        Optional<Member> member = Optional.ofNullable(memberRepository.findByEmail(email));
+        if (member.isPresent()) {
+            logger.info("Deleting user in db " + member.get().getName());
+            memberRepository.delete(member.get());
+            return true;
+        }
+        logger.error("Failed Deleting user in db " + member.get().getName()+"-- email"+email);
+        return false;
+    }
+
+    public boolean updateById(String id, Member updatedMember) {
+        Optional<Member> memberOptional = memberRepository.findById(id);
+        if (memberOptional.isPresent()) {
+            Member existingMember = memberOptional.get();
+            existingMember.setName(updatedMember.getName());
+            existingMember.setPhoneNumber(updatedMember.getPhoneNumber());
+            existingMember.setEmail(updatedMember.getEmail());
+            // Add more fields as necessary
+            logger.info("Updating user in db " + existingMember.getName());
+            memberRepository.save(existingMember);
+            return true;
+        }
+        logger.error("Failed updating user in db " + updatedMember.getName());
+        return false;
+    }
+
+    public Member findByUsername(String username) {
+        return memberRepository.findByName(username).orElse(null);
     }
 }

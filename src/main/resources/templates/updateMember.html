@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Update Member</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container {
+            max-width: 600px;
+            margin-top: 50px;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .btn-primary {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center mb-4">Update Member</h1>
+    <form th:action="@{/user/updateMember}" method="post" class="needs-validation" novalidate>
+        <input type="hidden" name="id" th:value="${member.id}" />
+
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" th:value="${member.name}" class="form-control" required />
+            <div class="invalid-feedback">
+                Please enter the member's name.
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="phoneNumber">Phone Number:</label>
+            <input type="text" id="phoneNumber" name="phoneNumber" th:value="${member.phoneNumber}" class="form-control" required />
+            <div class="invalid-feedback">
+                Please enter a valid phone number.
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" th:value="${member.email}" class="form-control" required />
+            <div class="invalid-feedback">
+                Please enter a valid email address.
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+    </form>
+</div>
+
+<script>
+    // JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+            var forms = document.getElementsByClassName('needs-validation');
+            Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>
+</body>
+</html>

@@ -2,9 +2,12 @@ package com.mongodb.kitchensink.model;
 
 import jakarta.validation.constraints.*;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Document(collection = "members")
 public class Member {
@@ -28,6 +31,12 @@ public class Member {
     @Pattern(regexp = "\\d+", message = "Phone number must contain only digits")
     @Indexed(unique = true)
     private String phoneNumber;
+
+    @NotBlank(message = "Password is required")
+    private String password;
+    @NotBlank(message="Role cannot be blank either User/Admin")
+    private String role;
+
     public String getName() {
         return name;
     }
@@ -61,6 +70,30 @@ public class Member {
     public void setId(String id) {
         this.id = id;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+
+
 
     // Getters and setters
 }

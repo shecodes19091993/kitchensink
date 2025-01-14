@@ -78,11 +78,12 @@
         <p><strong>Name:</strong> <span th:text="${member.name}"></span></p>
         <p><strong>Email:</strong> <span th:text="${member.email}"></span></p>
         <p><strong>Phone Number:</strong> <span th:text="${member.phoneNumber}"></span></p>
+        <p><strong>Phone Number:</strong> <span th:text="${member.role}"></span></p>
     </div>
 
     <!-- View All Members Link -->
     <div class="view-all-members">
-        <a th:href="@{/kitchensink/members}">View All Members</a>
+        <a th:href="@{/admin/members}">View All Members</a>
     </div>
 </div>
 

@@ -19,4 +19,6 @@ public interface MemberRepository extends MongoRepository<Member, String> {
 
     @Override
     public Member save(Member entity);
+
+    Optional<Member> findByName(String username);
 }

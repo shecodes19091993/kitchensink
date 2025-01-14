@@ -74,7 +74,7 @@
 <body>
 <div if="${member == null}" class="search-member">
     <h2>Search Member by ID</h2>
-    <form th:action="@{/kitchensink/search/members/id=(id=${memberId})}" method="get">
+    <form th:action="@{/admin/search/members/id=(id=${memberId})}" method="get">
         <label for="memberId">Member ID:</label>
         <input type="text" id="memberId" name="id" placeholder="Enter Member ID" required />
         <button type="submit">Search</button>

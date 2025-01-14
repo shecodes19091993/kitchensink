@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Profile</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .profile-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        .profile-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .profile-info {
+            margin-bottom: 10px;
+        }
+        .profile-info label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="profile-container">
+    <div class="profile-header">
+        <h2>Welcome, <span th:text="${member.name}">User</span></h2>
+    </div>
+    <div class="profile-info">
+        <label>Name:</label>
+        <p th:text="${member.name}">Name</p>
+    </div>
+    <div class="profile-info">
+        <label>Email:</label>
+        <p th:text="${member.email}">Email</p>
+    </div>
+    <div class="profile-info">
+        <label>Phone Number:</label>
+        <p th:text="${member.phoneNumber}">Phone Number</p>
+    </div>
+    <div class="profile-info">
+        <label>Role:</label>
+        <p th:text="${member.role}">Role</p>
+    </div>
+    <div class="text-center">
+        <form th:action="@{/user/showUpdatePage}" method="get">
+            <input type="hidden" name="id" th:value="${member.id}" />
+            <button type="submit" class="update-link">Edit</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

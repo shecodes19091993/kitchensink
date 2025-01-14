@@ -4,160 +4,284 @@
 <head>
     <style>
     * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-/* Setting the font for the body */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    padding: 20px;
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    form {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 500px;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        color: #333;
+    }
+
+    form label {
+        font-size: 1rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        display: block;
+        color: #555;
+    }
+
+    form input {
+        width: 100%;
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+    }
+
+    form input:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+
+    div th\\:errors {
+        color: #a94442;
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+    }
+
+    .alert {
+        padding: 15px;
+        margin-bottom: 20px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        font-size: 1rem;
+    }
+
+    .alert-success {
+        color: #3c763d;
+        background-color: #dff0d8;
+        border-color: #d6e9c6;
+    }
+
+    .alert-danger {
+        color: #a94442;
+        background-color: #f2dede;
+        border-color: #ebccd1;
+    }
+
+.center-content {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    height: 100vh;
-}
-
-/* Styling the main form container */
-form {
-    background-color: white;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 500px;
-}
-
-/* Styling the form heading */
-h1 {
+    justify-content: center;
     text-align: center;
     margin-bottom: 1.5rem;
-    color: #333;
 }
-
-/* Styling for labels */
-form label {
-    font-size: 1rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-    display: block;
-    color: #555;
-}
-
-/* Styling for input fields */
-form input {
-    width: 100%;
-    padding: 0.75rem;
-    margin-bottom: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-    transition: border-color 0.3s ease;
-}
-
-/* Changing the border color when the input field is focused */
-form input:focus {
-    border-color: #007bff;
-    outline: none;
-}
-
-/* Error messages styling */
-div th\\:errors {
-    color: #a94442;
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
-}
-
-/* Success alert box */
-.alert {
-    padding: 15px;
-    margin-bottom: 20px;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    font-size: 1rem;
-}
-
-.alert-success {
-    color: #3c763d;
-    background-color: #dff0d8;
-    border-color: #d6e9c6;
-}
-
-.alert-danger {
-    color: #a94442;
-    background-color: #f2dede;
-    border-color: #ebccd1;
-}
-
-/* Styling for the submit button */
-form button {
-    width: 100%;
-    padding: 0.75rem;
-    background-color: #007bff;
-    color: white;
-    font-size: 1rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-/* Changing button color on hover */
-form button:hover {
-    background-color: #0056b3;
-}
-
-</style>
-    <title>Member Registration</title>
-
-</head>
-<script>document.querySelector('form').addEventListener('submit', function(event) {
-    const emailInput = document.getElementById('email').value;
-    if (!validateEmail(emailInput)) {
-        event.preventDefault();
-        alert('Please enter a valid email address.');
+    form button {
+        width: 100%;
+        padding: 0.75rem;
+        background-color: #007bff;
+        color: white;
+        font-size: 1rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
     }
-});
 
-function validateEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(String(email).toLowerCase());
-}</script>
+    form button:hover {
+        background-color: #0056b3;
+    }
+    </style>
+    <title>Member Registration</title>
+</head>
+
 <body>
-<h1>Member Registration</h1>
+<div class="center-content">
+<h1>Welcome to the Member Registration Portal</h1>
 
+<!-- Adjusted Success Message and Admin Welcome Message -->
 <div th:if="${successMessage}" class="alert alert-success">
     <p th:text="${successMessage}"></p>
 </div>
-
-<form th:action="@{/kitchensink/registerMember}" th:object="${member}" method="post">
+<p th:if="${admin != null}">
+    Hello, <span th:text="${admin.name}"></span>! Welcome back to the admin portal.
+</p>
+</div>
+<form th:action="@{/admin/registerMember}" th:object="${member}" method="post" id="registrationForm">
     <div>
         <label for="name">Name:</label>
-        <input type="text" id="name" pattern="^[a-zA-Z\s.'-]+$"  th:field="*{name}" maxlength="25" required oninvalid="this.setCustomValidity('Please Enter valid Name')"
-               onchange="try{setCustomValidity('')}catch(e){}"
-               oninput="setCustomValidity(' ')"/>
+        <input type="text" id="name"  th:field="*{name}" maxlength="25" required
+               oninvalid="this.setCustomValidity('Please enter a valid name');"
+               oninput="this.setCustomValidity('');"
+        />
+        <span id="nameError" style="color: red; display: none;">Please use a valid Name </span>
         <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
     </div>
     <div>
         <label for="phoneNumber">Phone Number:</label>
-        <input type="tel"  id="phoneNumber" th:field="*{phoneNumber}" maxlength="10" pattern="\d+" required  oninvalid="this.setCustomValidity('Please Enter Valid Phone Number')"
-               onchange="try{setCustomValidity('')}catch(e){}"
-               oninput="setCustomValidity(' ')"/>
+        <input type="tel" id="phoneNumber" th:field="*{phoneNumber}" maxlength="12" required
+               oninput="this.setCustomValidity('')"
+               oninvalid="this.setCustomValidity('Please enter a valid 10-digit phone number')"/>
+        <span id="phoneError" style="color: red; display: none;"></span>
         <div th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>
     </div>
     <div>
         <label for="email">Email:</label>
-        <input type="email" id="email" th:field="*{email}" required />
-        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" pattern="/^[^\s@]+@[^\s@]+\.[^\s@]+$/" oninvalid="this.setCustomValidity('Please Enter Valid Phone Number')"
-             onchange="try{setCustomValidity('')}catch(e){}"
-             oninput="setCustomValidity(' ')"></div>
+        <input type="email" id="email" th:field="*{email}" required
+               oninput="this.setCustomValidity('')"
+               oninvalid="this.setCustomValidity('Please enter a valid email address')"/>
+        <span id="emailError" style="color: red; display: none;">Please use a valid email syntax </span>
+        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+    </div>
+
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" th:field="*{password}" required
+               oninput="this.setCustomValidity('')"
+               oninvalid="this.setCustomValidity('Please enter a password')"/>
+        <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+        <span id="passwordError" style="color: red; display: none;">Password cannot be empty</span>
+    </div>
+
+    <div>
+        <label for="role">Role:</label>
+        <input type="text" id="role" name="role" required
+               oninvalid="this.setCustomValidity('Role must be either User or Admin');"
+               oninput="this.setCustomValidity('');" />
+        <span id="roleError" style="color: red; display: none;">Role must be either User or Admin</span>
     </div>
     <div>
         <button type="submit">Register</button>
     </div>
-
+    <div class="dashboard-actions">
+        <a th:href="@{/admin/members}" class="btn btn-primary" >View Members</a>
+    </div>
 </form>
+
+<script>
+    // Validate phone number to ensure it's exactly 10 digits
+function validateRole(input) {
+    const validRoles = ['user', 'admin','USER','ADMIN'];
+
+
+    if (validRoles.includes(input)) {
+        document.getElementById('roleError').style.display = 'none';
+        return true;
+    } else {
+        document.getElementById('roleError').style.display = 'block';
+        return false;
+    }
+}
+
+    function validatePhoneNumber(input) {
+      if (phoneNumber.value.length === 12 && phoneNumber.value.startsWith('91')) {
+    phoneNumber.value = phoneNumber.value.slice(2);
+}
+
+
+  const patt = /^[0]?[6789]\d{9}$/;
+
+    if (patt.test(phoneNumber.value)) {
+    document.getElementById('phoneError').style.display = 'none';
+        return true; // Valid phone number
+
+
+        }
+         else if(phoneNumber.value<10){
+          document.getElementById('phoneError').style.display = 'block';
+         document.getElementById('phoneError').textContent='Please make sure mobile number is 10 digit ';
+          return false;
+
+         }
+         else {
+         document.getElementById('phoneError').style.display = 'block';
+         document.getElementById('phoneError').textContent='Please make sure mobile num is beginning with 9,8,7 or 6 and does not contain alphabets';
+         return false;
+
+        }
+    }
+
+    // Validate email to match standard email format
+    function validateEmail(input) {
+        const emailRegex = /^[a-zA-Z0-9_.+\-]+[\x40][a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/ ;
+        if (!emailRegex.test(input)) {
+         document.getElementById('emailError').style.display = 'block';
+         return false;
+        } else {
+            document.getElementById('emailError').style.display = 'none';
+            return true;
+        }
+    }
+
+  function validateName(name) {
+  // Regular expression to allow only letters and spaces
+  const nameRegex = /^[a-zA-Z\s]{2,50}$/;
+
+  if (!name) {
+    return "Name field cannot be empty.";
+  }
+
+  if (!nameRegex.test(name)) {
+    return "Name must contain only letters and spaces, and be 2 to 50 characters long.";
+  }
+
+   return "Valid"; // The name is valid
+}
+    // Add form submission event listener to prevent invalid submissions
+    document.getElementById("registrationForm").addEventListener("submit", function (event) {
+        const phoneInput = document.getElementById("phoneNumber");
+        const name = document.getElementById("name").value;
+        const emailInput = document.getElementById("email").value;
+        const role = document.getElementById("role").value;
+
+        // Validate phone number
+
+
+
+
+        // Validate email
+
+        var validationMessage =validateName(name);
+        // Prevent form submission if any input is invalid
+if(validateRole(role) &&  validateEmail(emailInput) && validatePhoneNumber(phoneInput)){
+return true;
+}
+else
+{event.preventDefault();
+}
+
+   if (validationMessage === "Valid") {
+   document.getElementById('nameError').style.display = 'hidden';
+    return true;
+} else {
+   document.getElementById('nameError').style.display = 'inline';
+    return true;
+
+if(validateRole(role) &&  validateEmail(emailInput) && validatePhoneNumber(phoneInput)){
+return true;
+}
+else
+{event.preventDefault();
+}
+
+
+}
+    });
+</script>
 </body>
 </html>
