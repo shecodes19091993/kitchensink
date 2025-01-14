@@ -29,7 +29,7 @@ Update the application.properties file located in src/main/resources/ with your 
 ```bash
    spring.data.mongodb.host=localhost
    spring.data.mongodb.port=27017
-   spring.data.mongodb.database=kitchensink_db
+   spring.data.mongodb.database=kitchensink
 
 
 3. **Build Maven project 3.6 or higher**:
