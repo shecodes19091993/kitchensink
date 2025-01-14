@@ -27,14 +27,15 @@ The KitchenSink project is a Java-based application built using the Spring frame
 Update the application.properties file located in src/main/resources/ with your MongoDB connection details:
 
 ```bash
-spring.data.mongodb.host=localhost
-spring.data.mongodb.port=27017
-spring.data.mongodb.database=kitchensink_db
+   spring.data.mongodb.host=localhost
+   spring.data.mongodb.port=27017
+   spring.data.mongodb.database=kitchensink_db
 
-3 .Build Maven project 3.6 or higher:
+
+3. **Build Maven project 3.6 or higher**:
 
 Use Maven to build the project:
-```bash
+
 mvn clean install
 
 Access the application:
