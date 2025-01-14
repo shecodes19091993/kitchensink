@@ -1,6 +1,6 @@
 # KitchenSink Project
 
-The KitchenSink project is a Java-based application built using the Spring framework which has 2 panels one for Admin & other for user .
+The KitchenSink project is a Java-based application built using the Spring framework which has 2 panels one for Admin & other for user to register Member, update and delete them.
 
 ## Features
 
@@ -10,9 +10,9 @@ The KitchenSink project is a Java-based application built using the Spring frame
 
 ## Prerequisites
 
-- **Java 11** or higher
+- **Java 21** or higher
 - **Maven 3.6** or higher
-- **MongoDB**: Ensure MongoDB is installed and running on your local machine.
+- **MongoDB 5.2.1**: Ensure MongoDB is installed and running on your local machine.
 
 ## Getting Started
 
